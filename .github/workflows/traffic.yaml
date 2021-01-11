@@ -22,15 +22,13 @@ jobs:
       TRAFFIC_BRANCH: "traffic"
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: "insights"
       - uses: r-lib/actions/setup-r@v1
       - uses: r-lib/actions/setup-pandoc@v1
 
       - name: Create new branch or switch
         run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
+          git config --local user.email "dr.emi.tanaka@gmail.com"
+          git config --local user.name "Emi Tanaka"
 
 
       - name: Install R packages for getting the data
