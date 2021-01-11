@@ -40,7 +40,7 @@ jobs:
       - name: Switch or create branch
         run: |
           branch <- Sys.getenv("TRAFFIC_BRANCH")
-          branch_exists <- system(paste0("git show-branch", branch))==0
+          branch_exists <- system(paste("git show-branch", branch))==0
           if(branch_exists) {
             system("git branch traffic")
           } else {
