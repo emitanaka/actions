@@ -40,9 +40,9 @@ jobs:
       - name: Switch or create branch
         run: |
           branch <- Sys.getenv("TRAFFIC_BRANCH")
+          system("git fetch --all")
           branch_exists <- system(paste("git show-branch", branch))==0
           if(branch_exists) {
-            system("git fetch --all")
             system("git checkout traffic")
           } else {
             system("git checkout --orphan traffic")
@@ -82,7 +82,7 @@ jobs:
             new_data$date_retrieved <- Sys.Date()
 
             fn <- paste0(base_path, "/data/", gsub("popular/", "", acontent), ".csv")
-            write.csv(new_data, file = fn, append = file.exists(fn), row.names = FALSE)
+            write.table(new_data, file = fn, append = file.exists(fn), row.names = FALSE, sep = ",")
           }
         shell: Rscript {0}
 
