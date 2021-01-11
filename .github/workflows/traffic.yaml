@@ -90,6 +90,7 @@ jobs:
         run: |
           remotes::install_cran("ggplot2")
           library(ggplot2)
+          base_path <- Sys.getenv("GITHUB_WORKSPACE")
 
           dviews <- read.csv(paste0(base_path, "views.csv"))
           data_views <- data.frame(day = rep(as.Date(dviews$timestamp), times = 2),
