@@ -5,9 +5,6 @@ on:
     inputs:
       name:
         description: 'Manual dispatch'
-  push:
-    branches:
-      - main
   schedule:
     - cron: "55 12 * * *" # run everyday 12:55 UTC (equivalent to 23:55 AEDT)
 
@@ -30,6 +27,7 @@ jobs:
           git config --local user.email "actions@github.com"
           git config --local user.name "Github Actions"
           git config pull.rebase false
+          git pull --all
 
 
       - name: Install R packages for getting the data
@@ -41,7 +39,6 @@ jobs:
       - name: Switch or create branch
         run: |
           branch <- Sys.getenv("TRAFFIC_BRANCH")
-          system("git pull --all")
           branch_exists <- system(paste0("git show-branch origin/", branch))==0
           if(branch_exists) {
             system(paste("git checkout", branch))
@@ -85,7 +82,8 @@ jobs:
             new_data$date_retrieved <- Sys.Date()
 
             fn <- paste0(base_path, "/data/", gsub("popular/", "", acontent), ".csv")
-            write.table(new_data, file = fn, append = file.exists(fn), row.names = FALSE, sep = ",")
+            write.table(new_data, file = fn, append = file.exists(fn),
+                         row.names = FALSE, sep = ",", col.names = !file.exists(fn))
           }
         shell: Rscript {0}
 
