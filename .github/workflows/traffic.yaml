@@ -108,7 +108,7 @@ jobs:
           g2 <- (g1 %+% data_clones) + ggtitle("Clones")
 
           ggsave(paste0(base_path, "/latest-views-plot.png"), g1)
-          ggsave(paset0(base_path, "/latest-clones-plot.png"), g2)
+          ggsave(paste0(base_path, "/latest-clones-plot.png"), g2)
         shell: Rscript {0}
 
       - name: Git push the new data
