@@ -1,2 +1,4 @@
 "timestamp","count","uniques","date_retrieved"
 "2021-01-11T00:00:00Z",2,2,2021-01-11
+"timestamp","count","uniques","date_retrieved"
+"2021-01-11T00:00:00Z",16,6,2021-01-11
