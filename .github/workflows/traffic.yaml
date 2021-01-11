@@ -5,7 +5,9 @@ on:
     inputs:
       name:
         description: 'Manual dispatch'
-
+  push:
+    branches:
+      - main
   schedule:
     - cron: "55 12 * * 0" # run Sunday 12:55 UTC equivalent to 23:55 AEDT
 
