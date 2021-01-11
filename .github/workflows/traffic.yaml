@@ -25,7 +25,7 @@ jobs:
       - uses: r-lib/actions/setup-r@v1
       - uses: r-lib/actions/setup-pandoc@v1
 
-      - name: Create new branch or switch
+      - name: Register user
         run: |
           git config --local user.email "dr.emi.tanaka@gmail.com"
           git config --local user.name "Emi Tanaka"
@@ -42,9 +42,9 @@ jobs:
           branch <- Sys.getenv("TRAFFIC_BRANCH")
           branch_exists <- system(paste("git show-branch", branch))==0
           if(branch_exists) {
-            system("git branch traffic")
+            system("git checkout traffic")
           } else {
-            system("git branch --orphan traffic")
+            system("git checkout --orphan traffic")
             system("git rm -rf .")
           }
         shell: Rscript {0}
