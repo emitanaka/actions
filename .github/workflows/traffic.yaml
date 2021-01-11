@@ -6,7 +6,7 @@ on:
       name:
         description: 'Manual dispatch'
   schedule:
-    - cron: "55 12 * * *" # run everyday 12:55 UTC (equivalent to 23:55 AEDT)
+    - cron: "55 12 * * 0" # run Sunday 12:55 UTC (equivalent to 23:55 AEDT)
 
 name: Collect github traffic information on a repo
 
@@ -68,9 +68,6 @@ jobs:
             res <- content(GET(paste0(base_url, acontent),
                                add_headers(Authorization = paste("token", Sys.getenv("GITHUB_PAT")),
                                            Accept = "application/vnd.github.v3+json")))
-            # for some reason only fetches one day worth of data only
-            # even if same command extracts more on desktop with
-            # exact same token
             if(grepl("popular", acontent)) {
               new_data <- do.call(rbind, lapply(res, function(x) do.call(data.frame, x)))
               new_data$date_to <- Sys.Date() - 1
