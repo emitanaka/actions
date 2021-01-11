@@ -9,7 +9,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: "55 12 * * 0" # run Sunday 12:55 UTC equivalent to 23:55 AEDT
+    - cron: "55 12 * * *" # run everyday 12:55 UTC (equivalent to 23:55 AEDT)
 
 name: Collect github traffic information on a repo
 
@@ -40,12 +40,13 @@ jobs:
       - name: Switch or create branch
         run: |
           branch <- Sys.getenv("TRAFFIC_BRANCH")
+          print(branch)
           system("git fetch --all")
           branch_exists <- system(paste("git show-branch", branch))==0
           if(branch_exists) {
-            system("git checkout traffic")
+            system(paste("git checkout", branch))
           } else {
-            system("git checkout --orphan traffic")
+            system(paste("git checkout --orphan", branch))
             system("git rm -rf .")
           }
         shell: Rscript {0}
@@ -70,7 +71,9 @@ jobs:
             res <- content(GET(paste0(base_url, acontent),
                                add_headers(Authorization = paste("token", Sys.getenv("GITHUB_PAT")),
                                            Accept = "application/vnd.github.v3+json")))
-            print(res)
+            # for some reason only fetches one day worth of data only
+            # even if same command extracts more on desktop with
+            # exact same token
             if(grepl("popular", acontent)) {
               new_data <- do.call(rbind, lapply(res, function(x) do.call(data.frame, x)))
               new_data$date_to <- Sys.Date() - 1
