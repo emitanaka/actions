@@ -95,11 +95,11 @@ jobs:
           dviews <- read.csv(paste0(base_path, "/data/views.csv"))
           data_views <- data.frame(day = rep(as.Date(dviews$timestamp), times = 2),
                                    count = c(dviews$count, dviews$uniques),
-                                   type = rep(c("total", "unique"), each = nrow(dviews))
+                                   type = rep(c("total", "unique"), each = nrow(dviews)))
           dclones <- read.csv(paste0(base_path, "/data/clones.csv"))
           data_clones <- data.frame(day = rep(as.Date(dclones$timestamp), times = 2),
                                    count = c(dclones$count, dclones$uniques),
-                                   type = rep(c("total", "unique"), each = nrow(dclones))
+                                   type = rep(c("total", "unique"), each = nrow(dclones)))
           g1 <- ggplot(data_views, aes(day, count, color = type)) +
             geom_point() +
             geom_line() +
