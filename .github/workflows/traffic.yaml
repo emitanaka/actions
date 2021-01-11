@@ -94,13 +94,11 @@ jobs:
           data_clones <- data.frame(day = rep(as.Date(dclones$timestamp), times = 2),
                                    count = c(dclones$count, dclones$uniques),
                                    type = rep(c("total", "unique"), each = nrow(dclones))
-
           g1 <- ggplot(data_views, aes(day, count, color = type)) +
             geom_point() +
             geom_line() +
             scale_color_manual(values = c("#264653", "#E76F51")) +
             ggtitle("Views")
-
           g2 <- (g1 %+% data_clones) + ggtitle("Clones")
 
           ggsave("latest-views-plot.png", g1)
