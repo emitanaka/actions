@@ -95,16 +95,16 @@ jobs:
                                    count = c(dclones$count, dclones$uniques),
                                    type = rep(c("total", "unique"), each = nrow(dclones))
 
-         g1 <- ggplot(data_views, aes(day, count, color = type)) +
+          g1 <- ggplot(data_views, aes(day, count, color = type)) +
             geom_point() +
             geom_line() +
             scale_color_manual(values = c("#264653", "#E76F51")) +
             ggtitle("Views")
 
-         g2 <- (g1 %+% data_clones) + ggtitle("Clones")
+          g2 <- (g1 %+% data_clones) + ggtitle("Clones")
 
-         ggsave("latest-views-plot.png", g1)
-         ggsave("latest-clones-plot.png", g2)
+          ggsave("latest-views-plot.png", g1)
+          ggsave("latest-clones-plot.png", g2)
         shell: Rscript {0}
 
       - name: Git push the new data
