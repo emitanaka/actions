@@ -56,7 +56,7 @@ jobs:
             dir.create(data_path)
           }
 
-          if(!file.exists(readme_fn <- paste0(base_path, "README.md"))) {
+          if(!file.exists(readme_fn <- paste0(base_path, "/README.md"))) {
             writeLines("# Traffic Information\n
                         ![](latest-views-plot.png)\n
                         ![](latest-clones-plot.png)",
@@ -81,8 +81,8 @@ jobs:
             }
             new_data$date_retrieved <- Sys.Date()
 
-            fn <- paste0(base_path, gsub("popular/", "", acontent), ".csv")
-            write.csv(new_data, append = file.exists(fn), row.names = FALSE)
+            fn <- paste0(base_path, "/data/", gsub("popular/", "", acontent), ".csv")
+            write.csv(new_data, file = fn, append = file.exists(fn), row.names = FALSE)
           }
         shell: Rscript {0}
 
@@ -92,11 +92,11 @@ jobs:
           library(ggplot2)
           base_path <- Sys.getenv("GITHUB_WORKSPACE")
 
-          dviews <- read.csv(paste0(base_path, "views.csv"))
+          dviews <- read.csv(paste0(base_path, "/data/views.csv"))
           data_views <- data.frame(day = rep(as.Date(dviews$timestamp), times = 2),
                                    count = c(dviews$count, dviews$uniques),
                                    type = rep(c("total", "unique"), each = nrow(dviews))
-          dclones <- read.csv(paste0(base_path, "clones.csv"))
+          dclones <- read.csv(paste0(base_path, "/data/clones.csv"))
           data_clones <- data.frame(day = rep(as.Date(dclones$timestamp), times = 2),
                                    count = c(dclones$count, dclones$uniques),
                                    type = rep(c("total", "unique"), each = nrow(dclones))
@@ -107,12 +107,13 @@ jobs:
             ggtitle("Views")
           g2 <- (g1 %+% data_clones) + ggtitle("Clones")
 
-          ggsave("latest-views-plot.png", g1)
-          ggsave("latest-clones-plot.png", g2)
+          ggsave(paste0(base_path, "/latest-views-plot.png"), g1)
+          ggsave(paset0(base_path, "/latest-clones-plot.png"), g2)
         shell: Rscript {0}
 
       - name: Git push the new data
         run: |
+          git add .
           git commit -m 'New traffic information'
           git push $TRAFFIC_BRANCH
 
