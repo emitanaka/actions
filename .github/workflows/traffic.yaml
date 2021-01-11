@@ -27,8 +27,8 @@ jobs:
 
       - name: Register user
         run: |
-          git config --local user.email "dr.emi.tanaka@gmail.com"
-          git config --local user.name "Emi Tanaka"
+          git config --local user.email "actions@github.com"
+          git config --local user.name "Github Actions"
 
 
       - name: Install R packages for getting the data
@@ -40,8 +40,7 @@ jobs:
       - name: Switch or create branch
         run: |
           branch <- Sys.getenv("TRAFFIC_BRANCH")
-          print(branch)
-          system("git fetch --all")
+          system("git pull --all")
           branch_exists <- system(paste("git show-branch", branch))==0
           if(branch_exists) {
             system(paste("git checkout", branch))
