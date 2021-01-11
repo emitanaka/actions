@@ -42,6 +42,7 @@ jobs:
           branch <- Sys.getenv("TRAFFIC_BRANCH")
           branch_exists <- system(paste("git show-branch", branch))==0
           if(branch_exists) {
+            system("git fetch --all")
             system("git checkout traffic")
           } else {
             system("git checkout --orphan traffic")
@@ -69,6 +70,7 @@ jobs:
             res <- content(GET(paste0(base_url, acontent),
                                add_headers(Authorization = paste("token", Sys.getenv("GITHUB_PAT")),
                                            Accept = "application/vnd.github.v3+json")))
+            print(res)
             if(grepl("popular", acontent)) {
               new_data <- do.call(rbind, lapply(res, function(x) do.call(data.frame, x)))
               new_data$date_to <- Sys.Date() - 1
