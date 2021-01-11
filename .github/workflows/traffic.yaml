@@ -57,9 +57,7 @@ jobs:
           }
 
           if(!file.exists(readme_fn <- paste0(base_path, "/README.md"))) {
-            writeLines("# Traffic Information\n
-                        ![](latest-views-plot.png)\n
-                        ![](latest-clones-plot.png)",
+            writeLines("# Traffic Information\n![](latest-views-plot.png)\n![](latest-clones-plot.png)",
                        readme_fn)
           }
 
