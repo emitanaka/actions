@@ -115,6 +115,6 @@ jobs:
         run: |
           git add .
           git commit -m 'New traffic information'
-          git push $TRAFFIC_BRANCH
+          git push origin $TRAFFIC_BRANCH
 
 
