@@ -1,0 +1,20 @@
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Manual dispatch'
+  schedule:
+    - cron: "*/53 * * * *" # run everyday 12:55 UTC (equivalent to 23:55 AEDT)
+
+name: "cran experiment"
+
+jobs:
+  cran-experiment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@v1
+      - name: Install R packages for getting the data
+        run: |
+          install.packages("edibble")
+        shell: Rscript {0}
